@@ -4,7 +4,7 @@ angular.module('songhop.services', [])
 .factory('User', function() {
 	var o = {
 		favorites: []
-	}
+	};
 
 	// add songs to favorites
 	o.addSongToFavorites = function(song) {
@@ -24,5 +24,31 @@ angular.module('songhop.services', [])
 		o.favorites.splice(index, 1);
 	}
 	return o;
+})
+
+.factory('Recommendations', function($http, SERVER) {
+	var o = {
+		queue: []
+	};
 	
+	o.getNextSongs = function() {
+		return $http({
+			method: 'GET',
+			url: SERVER.url + '/recommendations'
+		}).success(function(data){
+			// put data in the queue
+			o.queue = o.queue.concat(data);
+		});
+	};
+
+	o.nextSong = function() {
+		// pop index 0 off
+		o.queue.shift();
+
+		// fill up queue if running low
+		if (o.queue.length <=3) {
+			o.getNextSongs();
+		}
+	};
+	return o;
 });
