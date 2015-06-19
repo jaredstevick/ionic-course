@@ -1,3 +1,6 @@
+working through this ionic tutorial.  we'll see how it goes.
+
+
 Mastering the Ionic Framework: Learn to Build & Deploy Native Speed HTML5 Based Apps
 =======
 
