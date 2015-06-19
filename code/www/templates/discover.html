@@ -13,6 +13,10 @@
         <p>{{ currentSong.artist }}</p>
       </div>
 
+      <div class="img-lookahead">
+        <img ng-src="{{ nextAlbumImg() }}" />
+      </div>
+
       <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item" ng-click="sendFeedback(false)">
           <i class="icon ion-close"></i>
