@@ -9,6 +9,7 @@ Controller for the discover page
 	Recommendations.getNextSongs()
 		.then(function(){
 			$scope.currentSong = Recommendations.queue[0];
+			Recommendations.playCurrentSong();
 		});
 
 	$scope.nextAlbumImg = function() {
@@ -34,6 +35,8 @@ Controller for the discover page
 			// update current song in scope
 			$scope.currentSong = Recommendations.queue[0];
 		}, 250);
+
+		Recommendations.playCurrentSong();
 	}
 })
 
@@ -53,6 +56,9 @@ Controller for the favorites page
 /*
 Controller for our tab bar
 */
-.controller('TabsCtrl', function($scope) {
-
+.controller('TabsCtrl', function($scope, Recommendations) {
+	// stop audio when on favorites page
+	$scope.enteringFavorites = function() {
+		Recommendations.haltAudio();
+	}
 });

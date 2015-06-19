@@ -26,11 +26,14 @@ angular.module('songhop.services', [])
 	return o;
 })
 
-.factory('Recommendations', function($http, SERVER) {
+.factory('Recommendations', function($http, SERVER, $q) {
+	var media;
+
 	var o = {
 		queue: []
 	};
 	
+
 	o.getNextSongs = function() {
 		return $http({
 			method: 'GET',
@@ -39,16 +42,42 @@ angular.module('songhop.services', [])
 			// put data in the queue
 			o.queue = o.queue.concat(data);
 		});
-	};
+	}
 
 	o.nextSong = function() {
 		// pop index 0 off
 		o.queue.shift();
 
+		// end the song
+		o.haltAudio();
+
 		// fill up queue if running low
 		if (o.queue.length <=3) {
 			o.getNextSongs();
-		}
+		};
+	}
+
+	o.playCurrentSong = function() { 
+		var defer = $q.defer();
+
+		// play current song preview
+		media = new Audio(o.queue[0].preview_url);
+
+		// when song is loaded, resolve promise for controller
+		media.addEventListener("loadeddata", function(){
+			defer.resolve();
+		});
+
+		media.play();
+
+		return defer.promise;
 	};
+
+	// for use when switching to favorites
+	o.haltAudio = function() {
+		if (media) media.pause();
+	}
+
 	return o;
+	
 });
