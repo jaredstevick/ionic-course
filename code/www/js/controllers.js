@@ -6,7 +6,7 @@ Controller for the discover page
 */
 .controller('DiscoverCtrl', function($scope, $timeout, User, Recommendations) {
 
-	Recommendations.getNextSongs()
+	Recommendations.init()
 		.then(function(){
 			$scope.currentSong = Recommendations.queue[0];
 			Recommendations.playCurrentSong();
@@ -60,5 +60,8 @@ Controller for our tab bar
 	// stop audio when on favorites page
 	$scope.enteringFavorites = function() {
 		Recommendations.haltAudio();
+	}
+	$scope.leavingFavorites = function() {
+		Recommendations.init();
 	}
 });
