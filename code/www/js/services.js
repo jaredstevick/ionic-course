@@ -3,7 +3,8 @@ angular.module('songhop.services', [])
 // store array of favorite songs
 .factory('User', function() {
 	var o = {
-		favorites: []
+		favorites: [],
+		newFavorites: 0
 	};
 
 	// add songs to favorites
@@ -13,6 +14,12 @@ angular.module('songhop.services', [])
 
 		//add it to the array
 		o.favorites.unshift(song);
+		o.newFavorites++;
+	}
+
+	// get number of new favorites
+	o.favoriteCount = function() {
+		return o.newFavorites;
 	}
 
 	// remove songs from favorites

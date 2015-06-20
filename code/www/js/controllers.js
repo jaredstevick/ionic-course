@@ -80,12 +80,15 @@ Controller for the favorites page
 /*
 Controller for our tab bar
 */
-.controller('TabsCtrl', function($scope, Recommendations) {
+.controller('TabsCtrl', function($scope, Recommendations, User) {
 	// stop audio when on favorites page
 	$scope.enteringFavorites = function() {
+		// resets new favorites to 0 when you click the favorite tab
+		User.newFavorites = 0;
 		Recommendations.haltAudio();
 	}
 	$scope.leavingFavorites = function() {
 		Recommendations.init();
 	}
+	$scope.favCount = User.favoriteCount;
 });
